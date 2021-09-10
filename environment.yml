@@ -1,0 +1,22 @@
+name: TD3
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python
+  - jupyterlab>=3
+  - pandas
+  - holoviews
+  - param
+  - panel
+  - pip
+  - numpy
+  - pytorch
+  - gym
+  - stable-baselines3
+  - tensorboardx
+  - pip:
+    - PyBullet
+    - numpngw
