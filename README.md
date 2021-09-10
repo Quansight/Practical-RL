@@ -1,3 +1,9 @@
+# Reinforcement Learning Overview and Modifications
+
+Many of the files in this repository are original to https://github.com/sfujim/TD3 - the code from the original authors of TD3, the learning algorithm we utilize in our notebooks here; including the contained readme below.  To dive in to our own content, the ModifyingRL.ipynb notebook is a great place to start and can be seen as a more comprehensive readme for the things we're demonstrating here.
+
+----------------
+
 # Addressing Function Approximation Error in Actor-Critic Methods
 
 PyTorch implementation of Twin Delayed Deep Deterministic Policy Gradients (TD3). If you use our code or data please cite the [paper](https://arxiv.org/abs/1802.09477).
