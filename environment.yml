@@ -20,3 +20,4 @@ dependencies:
   - pip:
     - PyBullet
     - numpngw
+    - highway-env
