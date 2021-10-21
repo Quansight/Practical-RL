@@ -1,0 +1,9 @@
+format: jb-book
+root: README
+chapters: 
+- file: Course_Material/Day1
+- file: Course_Material/Day2
+- file: Course_Material/Day3
+- file: Course_Material/Day4
+- file: Course_Material/Day5
+- file: Course_Material/Day6
