@@ -1,0 +1,65 @@
+# _config.yml
+title: Practical-RL
+author: tonyfast
+copyright: '2021'
+logo: ''
+exclude_patterns: [.nox]
+only_build_toc_files: true
+execute:
+  execute_notebooks: off
+  cache: ''
+  exclude_patterns: []
+  timeout: 30
+  run_in_temp: false
+  allow_errors: true
+  stderr_output: show
+parse:
+  myst_enable_extensions:
+  - linkify
+  - substitution
+  - dollarmath
+  - colon_fence
+  - tasklist
+  myst_url_schemes:
+  - mailto
+  - http
+  - https
+html:
+  favicon: ''
+  use_edit_page_button: true
+  use_repository_button: true
+  use_issues_button: false
+  use_multitoc_numbering: true
+  extra_navbar: ''
+  extra_footer: ''
+  google_analytics_id: ''
+  home_page_in_navbar: true
+  baseurl: ''
+  comments:
+    hypothesis: false
+    utterances: false
+repository:
+  url: https://github.com/Quansight/Practical-RL
+  path_to_book: ''
+  branch: main
+launch_buttons: {}
+latex:
+  latex_engine: pdflatex
+  use_jupyterbook_latex: false
+sphinx:
+  extra_extensions:
+  - sphinx_togglebutton
+  - sphinx_copybutton
+  - myst_nb
+  - jupyter_book
+  - sphinx_comments
+  - sphinx_external_toc
+  - sphinx.ext.intersphinx
+  - sphinx_book_theme
+  - sphinx.ext.napoleon
+  - sphinx.ext.todo
+  - sphinx.ext.autodoc
+  - sphinx.ext.viewcode
+  - jupyterbook_latex
+  local_extensions:
+  config: {}
