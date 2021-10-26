@@ -1,4 +1,4 @@
-name: TD3
+name: practical-rl
 
 channels:
   - conda-forge
