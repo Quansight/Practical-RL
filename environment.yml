@@ -1,4 +1,4 @@
-name: practical-rl
+name: TD3
 
 channels:
   - conda-forge
@@ -21,3 +21,4 @@ dependencies:
     - PyBullet
     - numpngw
     - highway-env
+    - opencv-python
