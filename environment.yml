@@ -21,3 +21,4 @@ dependencies:
     - PyBullet
     - numpngw
     - highway-env
+    - opencv-python
