@@ -1,6 +1,7 @@
 format: jb-book
 root: README
 chapters: 
+- file: Course_Material/Practical_RL_Course_Intro
 - file: Course_Material/Day1
 - file: Course_Material/Day2
 - file: Course_Material/Day3
