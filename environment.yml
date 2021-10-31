@@ -17,6 +17,7 @@ dependencies:
   - gym
   - stable-baselines3
   - tensorboardx
+  - tqdm
   - pip:
     - PyBullet
     - numpngw
