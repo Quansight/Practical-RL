@@ -18,6 +18,26 @@ class MyWalkerBase(WalkerBase):
     self.walk_target_y = 20
     self.body_xyz = [0, 0, 0]
     
+class MyAnt(MyWalkerBase):
+  foot_list = ['front_left_foot', 'front_right_foot', 'left_back_foot', 'right_back_foot']
+
+  def __init__(self):
+    MyWalkerBase.__init__(self, "ant.xml", "torso", action_dim=8, obs_dim=28, power=2.5)
+
+  def alive_bonus(self, z, pitch):
+    return +1 if z > 0.26 else -1  # 0.25 is central sphere rad, die if it scrapes the ground
+
+class MyAntBulletEnv(WalkerBaseBulletEnv):
+
+  def __init__(self, render=False):
+    self.robot = MyAnt()
+    
+    self.camera_x = 0
+    self.walk_target_x = 20  # originally 1 kilometer away, now 5m
+    self.walk_target_y = 20
+    self.stateId = -1
+    MJCFBaseBulletEnv.__init__(self, self.robot, render)
+    
   electricity_cost = -2.0  # cost for using motors -- this parameter should be carefully tuned against reward for making progress, other values less improtant
   stall_torque_cost = -0.1  # cost for running electric current through a motor even at zero rotational speed, small
   foot_collision_cost = -1.0  # touches another leg, or other objects, that cost makes robot avoid smashing feet into itself
@@ -87,24 +107,3 @@ class MyWalkerBase(WalkerBase):
     self.reward += sum(self.rewards)
 
     return state, sum(self.rewards), bool(done), {}
-    
-class MyAnt(MyWalkerBase):
-  foot_list = ['front_left_foot', 'front_right_foot', 'left_back_foot', 'right_back_foot']
-
-  def __init__(self):
-    MyWalkerBase.__init__(self, "ant.xml", "torso", action_dim=8, obs_dim=28, power=2.5)
-
-  def alive_bonus(self, z, pitch):
-    return +1 if z > 0.26 else -1  # 0.25 is central sphere rad, die if it scrapes the ground
-
-class MyAntBulletEnv(WalkerBaseBulletEnv):
-
-  def __init__(self, render=False):
-    self.robot = MyAnt()
-    
-    self.camera_x = 0
-    self.walk_target_x = 20  # originally 1 kilometer away, now 5m
-    self.walk_target_y = 20
-    self.stateId = -1
-    MJCFBaseBulletEnv.__init__(self, self.robot, render)
-    
