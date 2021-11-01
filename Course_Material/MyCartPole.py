@@ -38,20 +38,19 @@ class MyCartPoleEnv(CartPoleEnv):
 
         self.state = (x, x_dot, theta, theta_dot)
 
+        ####################################################
+        ########## Reward function starts here #############
+        ####################################################
+        
         done = bool(
             x < -self.x_threshold
             or x > self.x_threshold
             or theta < -self.theta_threshold_radians
             or theta > self.theta_threshold_radians
         )
-
         
-        
-        ####################################################
-        ########## Reward function starts here #############
-        ####################################################
         if not done:
-            reward = 2.0
+            reward = 1.0
         elif self.steps_beyond_done is None:
             # Pole just fell!
             self.steps_beyond_done = 0
