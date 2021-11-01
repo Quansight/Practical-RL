@@ -9,6 +9,7 @@ dependencies:
   - jupyterlab>=3
   - pandas
   - holoviews
+  - hvplot
   - param
   - panel
   - pip
@@ -18,6 +19,7 @@ dependencies:
   - stable-baselines3
   - tensorboardx
   - tqdm
+  - jupyterlab-git
   - pip:
     - PyBullet
     - numpngw
