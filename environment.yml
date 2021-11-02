@@ -18,6 +18,7 @@ dependencies:
   - gym
   - stable-baselines3
   - tensorboardx
+  - tensorboard
   - tqdm
   - jupyterlab-git
   - pip:
