@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 5, Part B: Using Your Trained Policy &#8212; Practical-RL</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Day 5, Part A: Multi-Agent RL" href="Day5_PartA.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Practical-RL</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Readme
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Practical_RL_Course_Intro.html">
+   Syllabus: Practical Reinforcement Learning Course
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartA.html">
+   Day 1, Part A: Introduction to reinforcement learning and research environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartB.html">
+   Day 1, Part B: More on Reward Design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartC.html">
+   Day 1, Part C: Faster Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartD.html">
+   Day 1, Part D: Parking a Car with RL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartA.html">
+   Day 2, Part A: Learning To Run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartB.html">
+   Day 2, Part B: TD3 Algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day3_PartA.html">
+   Day 3, Part A: Modifying The Environment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day3_PartB.html">
+   Day 3, Part B: Reward Shaping, Generalization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day4_PartA.html">
+   Day 4, Part A: Hyperparameter Tuning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day4_PartB.html">
+   Day 4, Part B: Creating Custom Environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day5_PartA.html">
+   Day 5, Part A: Multi-Agent RL
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Day 5, Part B: Using Your Trained Policy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Course_Material/Day5_PartB.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Quansight/Practical-RL"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/Quansight/Practical-RL/edit/main/Course_Material/Day5_PartB.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Quansight/Practical-RL/main?urlpath=tree/Course_Material/Day5_PartB.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Day 5, Part B: Using Your Trained Policy
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals">
+   Learning goals
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definitions">
+   Definitions
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#i-ve-trained-i-m-happy-with-the-results-now-what">
+   I’ve trained. I’m happy with the results. Now what?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-ant-and-have-it-perform-some-actions">
+   Load Ant and have it perform some actions
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#walk-to-each-coordinate">
+   Walk to each coordinate
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="day-5-part-b-using-your-trained-policy">
+<h1>Day 5, Part B: Using Your Trained Policy<a class="headerlink" href="#day-5-part-b-using-your-trained-policy" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="learning-goals">
+<h1>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>What to do with the trained policy</p></li>
+</ul>
+</div>
+<div class="section" id="definitions">
+<h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Simulation environment</strong>: Notice that this is not the same as the python/conda environment.  The simulation environment is the simulated world where the reinforcement learning takes place.  It provides opportunities for an agent to learn and explore, and ideally provides challenges that aid in efficient learning.</p></li>
+<li><p><strong>Agent (aka actor or policy)</strong>: An entity in the simulation environment that performs actions.  The agent could be a person, a robot, a car, a thermostat, etc.</p></li>
+<li><p><strong>State variable</strong>: An observed variable in the simulation environment.  They can be coordinates of objects or entities, an amount of fuel in a tank, air temperature, wind speed, etc.</p></li>
+<li><p><strong>Action variable</strong>: An action that the agent can perform.  Examples: step forward, increase velocity to 552.5 knots, push object left with force of 212.3 N, etc.</p></li>
+<li><p><strong>Reward</strong>: A value given to the agent for doing something considered to be ‘good’.  Reward is commonly assigned at each time step and cumulated during a learning episode.</p></li>
+<li><p><strong>Episode</strong>: A learning event consisting of multiple steps in which the agent can explore.  It starts with the unmodified environment and continues until the goal is achieved or something prevents further progress, such as a robot getting stuck in a hole.  Multiple episodes are typically run in loops until the model is fully trained.</p></li>
+<li><p><strong>Model (aka policy or agent)</strong>: An RL model is composed of the modeling architecture (e.g., neural network) and parameters or weights that define the unique behavior of the model.</p></li>
+<li><p><strong>Policy (aka model or agent)</strong>: The parameters of a model that encode the best choices to make in an environment.  The choices are not necessarily good ones until the model undergoes training.  The policy (or model) is the “brain” of the agent.</p></li>
+<li><p><strong>Replay Buffer</strong>: A place in memory to store state, action, reward and other variables describing environmental state transitions. It is effectively the agent’s memory of past experiences.</p></li>
+<li><p><strong>On-policy</strong>: The value of the next action is determined using the current actor policy.</p></li>
+<li><p><strong>Off-policy</strong>: The value of the next action is determined by a function, such as a value function, instead of the current actor policy.</p></li>
+<li><p><strong>Value function</strong>: Function (typically a neural network) used to estimate the value, or expected reward, of an action.</p></li>
+</ul>
+</div>
+<div class="section" id="i-ve-trained-i-m-happy-with-the-results-now-what">
+<h1>I’ve trained. I’m happy with the results. Now what?<a class="headerlink" href="#i-ve-trained-i-m-happy-with-the-results-now-what" title="Permalink to this headline">¶</a></h1>
+<p>Training a RL policy can be very time consuming and expensive, so you want to make sure it’s put to good use.  Before we try to make use of the trained model, let’s be sure it’s ready to use.  In previous notebooks, we have been saving the models (e.g., Day 1 Part C), but there are additional nuances that can be helpful during training.</p>
+<ul class="simple">
+<li><p>Consider auto-saving the highest reward policy during training</p></li>
+<li><p>Consider auto-saving periodically in case you need to pause a long training run or there is a power outage</p></li>
+</ul>
+<p>A lot of the frameworks have these things included, but you want to verify or put those things in by hand (or add more for your own interests) should you need them. TD3 has some, and we’ll mention those below.</p>
+<p>You might also want to stand up a database to store a large number of policy snapshots or to keep the model buffer state-action transitions (Methods that learn from previously determined transitions are a new field in RL).</p>
+<blockquote>
+<div><p><strong>There’s a golden rule you may have learned from late nights writing school essays and the power goes out: “Save. And save often.”</strong></p>
+</div></blockquote>
+<p>From our original stable_baselines3 CartPole:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;ppo_cartpole&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, saving produced a <code class="docutils literal notranslate"><span class="pre">ppo_cartpole.zip</span></code> file; others might produce a NumPy <code class="docutils literal notranslate"><span class="pre">.npy</span></code>, or simply an ‘object’.  These always contain the model values, but some also include other aspects of training, like episode number, so you can restart training where you left off.  That depends on the library you use.  In any case, <strong>the file is the artifact that you spent all your time and money producing - the stored values in the neural network</strong>.</p>
+<p>If you still have the ppo_cartpole.zip around, you can load it up and put it to use; otherwise, rerun Day1_PartC and create it.</p>
+<p>Now, import the same boilerplate:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3</span> <span class="kn">import</span> <span class="n">PPO</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create our environment from <code class="docutils literal notranslate"><span class="pre">gym.make()</span></code> and load the zip back in to a variable using stable-baselines3’s PPO load utilty.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;CartPole-v1&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PPO</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;ppo_cartpole&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll go ahead and do the same render we did before to ‘see it in action’, but lets take a look at what we have already:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">obs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This array is the environment state at reset.  Feel free to re-run the above cell a few times, you’ll see different results for each run.  (Use control-enter to re-run without leaving the cell)</p>
+<p>Passing that environment state to the policy in <code class="docutils literal notranslate"><span class="pre">model.predict(obs)</span></code> returns the policy action to take given the current environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">action</span><span class="p">,</span> <span class="n">_states</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">action</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Believe it or not, for CartPole, that’s the <em>entire</em> ballgame. All that time and effort gives you a policy that delivers one thing: the action to take given the state of the environment.</p>
+<blockquote>
+<div><p><strong>Remember that you are building a tool.</strong></p>
+</div></blockquote>
+<p>You <em>can</em> hook things up to run an entire episode and play things out like a simulation/game/etc., or you could just take that single one-off state-&gt;action converter and drop it into another piece of code.  Maybe you have a theory-based algorithm that solves your problem perfectly, except for that one blind point where your algorithm has a divide-by-zero (shrug), so in that exception catch you drop in your trained policy to do a bit more than just a simple ‘default action.’</p>
+<blockquote>
+<div><p><strong>Try running the next two cells, again and again, to advance the environment forward; predict-&gt;step-&gt;predict-&gt;step</strong></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">dones</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="n">obs</span><span class="p">,</span> <span class="n">rewards</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">action</span><span class="p">,</span> <span class="n">_states</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">action</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can, of course, just run the thing through the episode (or 1k steps in a loop below) given our policy.  But we just want to remind you, you don’t have to do just that with the policy you’ve trained.</p>
+<blockquote>
+<div><p><strong>Your policy is now a function that pops out ‘best actions’ when you ask it to</strong></p>
+</div></blockquote>
+<p>Set up a multiplayer game, for example, and every time the computer gets a turn (or opportunity to move in some way… maybe on a set polling interval, or maybe 0.05 seconds, or whatever) you pass the observations to your policy, and your AI player can act.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">action</span><span class="p">,</span> <span class="n">_states</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="n">obs</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">dones</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+<span class="n">env</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the case of TD3, there are save and load functions built in, and they look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critic</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_critic&quot;</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critic_optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_critic_optimizer&quot;</span><span class="p">)</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_actor&quot;</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actor_optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_actor_optimizer&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">critic</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_critic&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">critic_optimizer</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_critic_optimizer&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">critic_target</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critic</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_actor&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor_optimizer</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_actor_optimizer&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actor_target</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It’s simply using the PyTorch functions <code class="docutils literal notranslate"><span class="pre">torch.save()</span></code> and <code class="docutils literal notranslate"><span class="pre">torch.load()</span></code> to load the objects for actor and critic - then, when we request action and state updates, we’re now asking a loaded (trained or partially trained) policy: <code class="docutils literal notranslate"><span class="pre">policy.select_action(np.array(state))</span></code></p>
+</div>
+<div class="section" id="load-ant-and-have-it-perform-some-actions">
+<h1>Load Ant and have it perform some actions<a class="headerlink" href="#load-ant-and-have-it-perform-some-actions" title="Permalink to this headline">¶</a></h1>
+<p>There’s a lot of code in the next two cells, but it is rather simple in what it’s doing:</p>
+<ul class="simple">
+<li><p>import/load boilerplate</p></li>
+<li><p>register the environment</p></li>
+<li><p>load the policy</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">load_policy()</span></code> in this case is nearly identical to the first half of the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function we were playing with in our Ant examples.  It just stops as soon as it has the TD3 load accomplished, with correct parameters.  We don’t need most of them, but we’re bringing them along for the ride, just in case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">pybullet_envs</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">TD3</span>
+<span class="kn">from</span> <span class="nn">numpngw</span> <span class="kn">import</span> <span class="n">write_apng</span>
+<span class="kn">from</span> <span class="nn">gym.envs.registration</span> <span class="kn">import</span> <span class="n">registry</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">spec</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">registry</span><span class="o">.</span><span class="n">env_specs</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gym</span><span class="o">.</span><span class="n">envs</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">)</span>
+
+<span class="n">register</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;MyAntBulletEnv-v0&#39;</span><span class="p">,</span>
+         <span class="n">entry_point</span><span class="o">=</span><span class="s1">&#39;override_ant_random:MyAntBulletEnv&#39;</span><span class="p">,</span>
+         <span class="n">max_episode_steps</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+         <span class="n">reward_threshold</span><span class="o">=</span><span class="mf">2500.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_policy</span><span class="p">(</span><span class="n">env_name_var</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;policy&quot;</span> <span class="p">:</span> <span class="s2">&quot;TD3&quot;</span><span class="p">,</span>                  <span class="c1"># Policy name (TD3, DDPG or OurDDPG)</span>
+            <span class="s2">&quot;env&quot;</span> <span class="p">:</span> <span class="n">env_name_var</span><span class="p">,</span>              <span class="c1"># OpenAI gym environment name</span>
+            <span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                        <span class="c1"># Sets Gym, PyTorch and Numpy seeds</span>
+            <span class="s2">&quot;start_timesteps&quot;</span> <span class="p">:</span> <span class="mf">25e3</span><span class="p">,</span>          <span class="c1"># Time steps initial random policy is used</span>
+            <span class="s2">&quot;eval_freq&quot;</span> <span class="p">:</span> <span class="mf">5e3</span><span class="p">,</span>                 <span class="c1"># How often (time steps) we evaluate</span>
+            <span class="s2">&quot;max_timesteps&quot;</span> <span class="p">:</span> <span class="mf">2e6</span><span class="p">,</span>             <span class="c1"># Max time steps to run environment</span>
+            <span class="s2">&quot;expl_noise&quot;</span> <span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>                <span class="c1"># Std of Gaussian exploration noise</span>
+            <span class="s2">&quot;batch_size&quot;</span> <span class="p">:</span> <span class="mi">256</span><span class="p">,</span>                <span class="c1"># Batch size for both actor and critic</span>
+            <span class="s2">&quot;discount&quot;</span> <span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>                 <span class="c1"># Discount factor</span>
+            <span class="s2">&quot;tau&quot;</span> <span class="p">:</span> <span class="mf">0.007</span><span class="p">,</span>                     <span class="c1"># Target network update rate</span>
+            <span class="s2">&quot;policy_noise&quot;</span> <span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>              <span class="c1"># Noise added to target policy during critic update</span>
+            <span class="s2">&quot;noise_clip&quot;</span> <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>                <span class="c1"># Range to clip target policy noise</span>
+            <span class="s2">&quot;policy_freq&quot;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>                 <span class="c1"># Frequency of delayed policy updates</span>
+            <span class="s2">&quot;save_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;store_true&quot;</span><span class="p">,</span>       <span class="c1"># Save model and optimizer parameters</span>
+            <span class="s2">&quot;load_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>           <span class="c1"># Model load file name, &quot;&quot; doesn&#39;t load, &quot;default&quot; uses file_name</span>
+           <span class="p">}</span>
+
+    <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Policy: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Env: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Seed: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./results&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;./results&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;save_model&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./models&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;./models&quot;</span><span class="p">)</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Set seeds</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+
+    <span class="n">state_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">action_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+    <span class="n">max_action</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;state_dim&quot;</span><span class="p">:</span> <span class="n">state_dim</span><span class="p">,</span>
+        <span class="s2">&quot;action_dim&quot;</span><span class="p">:</span> <span class="n">action_dim</span><span class="p">,</span>
+        <span class="s2">&quot;max_action&quot;</span><span class="p">:</span> <span class="n">max_action</span><span class="p">,</span>
+        <span class="s2">&quot;discount&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Initialize policy</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TD3&quot;</span><span class="p">:</span>
+        <span class="c1"># Target policy smoothing is scaled wrt the action scale</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;policy_noise&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy_noise&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_action</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;noise_clip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;noise_clip&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_action</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;policy_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy_freq&#39;</span><span class="p">]</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">TD3</span><span class="o">.</span><span class="n">TD3</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">policy_file</span> <span class="o">=</span> <span class="n">file_name</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span>
+        <span class="n">policy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./models/</span><span class="si">{</span><span class="n">policy_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">policy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">policy</span> <span class="o">=</span> <span class="n">load_policy</span><span class="p">(</span><span class="s2">&quot;MyAntBulletEnv-v0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;MyAntBulletEnv-v0&quot;</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(),</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that everything’s set up, you can view the ant and <strong>step through the simulation using the next cell</strong> (we could have even just made that it’s own function - call it ‘advance’ or something).  Control-enter will run the cell without advancing to the next cell.</p>
+<p>At this point, it’s fun to keep the simulation window and the notebook both visible (I shrink my notebook to see the window on the side).  The view can be adjusted with control-click and your mouse wheel.</p>
+<p><strong>This cell can be used to advance the ant, one step at a time:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">action</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+<span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">body_xyz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Maybe mid-course we want to change the target the ant is walking to (which is then in the obs space):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">walk_target_x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+<span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">walk_target_y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Go back to the cell above and advance the ant. It should turn and go toward this new target.  There might be some momentum built up and some maneuvering to turn around, so advance it enough times to actually see it turn and start walking again.</p>
+<p>You get the picture - the policy controls what actions are taken, it’s an artifact that we save and load, but other than that it’s up to us how it gets used.</p>
+</div>
+<div class="section" id="walk-to-each-coordinate">
+<h1>Walk to each coordinate<a class="headerlink" href="#walk-to-each-coordinate" title="Permalink to this headline">¶</a></h1>
+<p>For fun - lets set it up so we can pass it a list of points the ant needs to go to, and we can pass in walking-path coordinates.  Maybe this list could be provided by another path-finding AI, or classical control scheme.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">),(</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">my_list</span><span class="p">:</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">walk_target_x</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">walk_target_y</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">path_done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">counter_i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">path_done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+        <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">100.</span><span class="p">)</span> <span class="c1">#comment out to run at max local system speed</span>
+        <span class="n">counter_i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">counter_i</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="n">path_done</span> <span class="o">=</span> <span class="kc">True</span>
+            
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">body_xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">env</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">body_xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="n">path_done</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Don’t let all that power go to your head.. poor little ant.</p>
+<p>Try changing the list up a few times and see the ant run different routes.</p>
+<blockquote>
+<div><p><strong>Can you make a path that Ant will follow?</strong></p>
+</div></blockquote>
+<p>This particular policy is from the 5 million time-step custom ant with no reward modification - it will mostly get the job done, but there will be a few instances where it just doesn’t make the next point happen (this is why we give it the 500 time-step counter time-out per episode).</p>
+<blockquote>
+<div><p><strong>For fun, try taking one of your modified ants with custom reward and send it through a similar challenge.</strong></p>
+</div></blockquote>
+<ul class="simple">
+<li><p>What happens if you (by-hand) manually tweak some of the robot internal state values as it’s moving?</p></li>
+<li><p>Is the ant robust to observation signal noise?  How might you modify the training course so it would handle real-world sensor noise/errors/corruptions that it might encounter (as if the policy were placed into a real robot)?</p></li>
+<li><p>What modifications might you want to make to the environment that the ant is trained in?</p></li>
+<li><p>The observables it sees - would they be general enough to handle the ‘real world’?</p></li>
+</ul>
+<p>There are lots of things to consider and weigh when building out your RL environment, training, and how you use the policy, but hopefully by this point you can start to answer some of these questions and think about what you might do, yourself.  Best of luck!</p>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Course_Material"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="Day5_PartA.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Day 5, Part A: Multi-Agent RL</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By tonyfast<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

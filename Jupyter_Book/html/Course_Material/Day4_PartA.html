@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 4, Part A: Hyperparameter Tuning &#8212; Practical-RL</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Day 4, Part B: Creating Custom Environments" href="Day4_PartB.html" />
+    <link rel="prev" title="Day 3, Part B: Reward Shaping, Generalization" href="Day3_PartB.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Practical-RL</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Readme
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Practical_RL_Course_Intro.html">
+   Syllabus: Practical Reinforcement Learning Course
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartA.html">
+   Day 1, Part A: Introduction to reinforcement learning and research environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartB.html">
+   Day 1, Part B: More on Reward Design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartC.html">
+   Day 1, Part C: Faster Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartD.html">
+   Day 1, Part D: Parking a Car with RL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartA.html">
+   Day 2, Part A: Learning To Run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartB.html">
+   Day 2, Part B: TD3 Algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day3_PartA.html">
+   Day 3, Part A: Modifying The Environment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day3_PartB.html">
+   Day 3, Part B: Reward Shaping, Generalization
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Day 4, Part A: Hyperparameter Tuning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day4_PartB.html">
+   Day 4, Part B: Creating Custom Environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day5_PartA.html">
+   Day 5, Part A: Multi-Agent RL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day5_PartB.html">
+   Day 5, Part B: Using Your Trained Policy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Course_Material/Day4_PartA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Quansight/Practical-RL"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/Quansight/Practical-RL/edit/main/Course_Material/Day4_PartA.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Quansight/Practical-RL/main?urlpath=tree/Course_Material/Day4_PartA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Day 4, Part A: Hyperparameter Tuning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals">
+   Learning goals
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definitions">
+   Definitions
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning">
+     Hyperparameter Tuning
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#target-network-update-rate-tau">
+       Target network update rate (tau)
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#batch-size-for-actor-and-critic-updates">
+       Batch size for actor and critic updates
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#exploration-noise">
+       Exploration noise
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="day-4-part-a-hyperparameter-tuning">
+<h1>Day 4, Part A: Hyperparameter Tuning<a class="headerlink" href="#day-4-part-a-hyperparameter-tuning" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="learning-goals">
+<h1>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Find out how tau and other hyperparameters affect learning</p></li>
+<li><p>Gain insight into how to adjust hyperparameters when training and RL model</p></li>
+</ul>
+</div>
+<div class="section" id="definitions">
+<h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Simulation environment</strong>: Notice that this is not the same as the python/conda environment.  The simulation environment is the simulated world where the reinforcement learning takes place.  It provides opportunities for an agent to learn and explore, and ideally provides challenges that aid in efficient learning.</p></li>
+<li><p><strong>Agent (aka actor or policy)</strong>: An entity in the simulation environment that performs actions.  The agent could be a person, a robot, a car, a thermostat, etc.</p></li>
+<li><p><strong>State variable</strong>: An observed variable in the simulation environment.  They can be coordinates of objects or entities, an amount of fuel in a tank, air temperature, wind speed, etc.</p></li>
+<li><p><strong>Action variable</strong>: An action that the agent can perform.  Examples: step forward, increase velocity to 552.5 knots, push object left with force of 212.3 N, etc.</p></li>
+<li><p><strong>Reward</strong>: A value given to the agent for doing something considered to be ‘good’.  Reward is commonly assigned at each time step and cumulated during a learning episode.</p></li>
+<li><p><strong>Episode</strong>: A learning event consisting of multiple steps in which the agent can explore.  It starts with the unmodified environment and continues until the goal is achieved or something prevents further progress, such as a robot getting stuck in a hole.  Multiple episodes are typically run in loops until the model is fully trained.</p></li>
+<li><p><strong>Model (aka policy or agent)</strong>: An RL model is composed of the modeling architecture (e.g., neural network) and parameters or weights that define the unique behavior of the model.</p></li>
+<li><p><strong>Policy (aka model or agent)</strong>: The parameters of a model that encode the best choices to make in an environment.  The choices are not necessarily good ones until the model undergoes training.  The policy (or model) is the “brain” of the agent.</p></li>
+<li><p><strong>Replay Buffer</strong>: A place in memory to store state, action, reward and other variables describing environmental state transitions. It is effectively the agent’s memory of past experiences.</p></li>
+<li><p><strong>On-policy</strong>: The value of the next action is determined using the current actor policy.</p></li>
+<li><p><strong>Off-policy</strong>: The value of the next action is determined by a function, such as a value function, instead of the current actor policy.</p></li>
+<li><p><strong>Value function</strong>: Function (typically a neural network) used to estimate the value, or expected reward, of an action.</p></li>
+<li><p><strong>Hyperparameter</strong>: Parameters <em>chosen</em> by the modeler to control machine learning.  Other parameters, like those that define the policy, are <em>generated</em> by machine learning.</p></li>
+</ul>
+<div class="section" id="hyperparameter-tuning">
+<h2>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">¶</a></h2>
+<p>Here are the hyperparameters from a previous TD3 model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;policy&quot;</span> <span class="p">:</span> <span class="s2">&quot;TD3&quot;</span><span class="p">,</span>                  <span class="c1"># Policy name (TD3, DDPG or OurDDPG)</span>
+<span class="s2">&quot;env&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyAntBulletEnv-v0&quot;</span><span class="p">,</span>       <span class="c1"># OpenAI gym environment name</span>
+<span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                        <span class="c1"># Sets Gym, PyTorch and Numpy seeds</span>
+<span class="s2">&quot;start_timesteps&quot;</span> <span class="p">:</span> <span class="mf">25e3</span><span class="p">,</span>          <span class="c1"># Time steps initial random policy is used</span>
+<span class="s2">&quot;eval_freq&quot;</span> <span class="p">:</span> <span class="mf">5e3</span><span class="p">,</span>                 <span class="c1"># How often (time steps) we evaluate</span>
+<span class="s2">&quot;max_timesteps&quot;</span> <span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>             <span class="c1"># Max time steps to run environment</span>
+<span class="s2">&quot;expl_noise&quot;</span> <span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>                <span class="c1"># Std of Gaussian exploration noise</span>
+<span class="s2">&quot;batch_size&quot;</span> <span class="p">:</span> <span class="mi">256</span><span class="p">,</span>                <span class="c1"># Batch size for both actor and critic</span>
+<span class="s2">&quot;discount&quot;</span> <span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>                 <span class="c1"># Discount factor</span>
+<span class="s2">&quot;tau&quot;</span> <span class="p">:</span> <span class="mf">0.007</span><span class="p">,</span>                     <span class="c1"># Target network update rate</span>
+<span class="s2">&quot;policy_noise&quot;</span> <span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>              <span class="c1"># Noise added to target policy during critic update</span>
+<span class="s2">&quot;noise_clip&quot;</span> <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>                <span class="c1"># Range to clip target policy noise</span>
+<span class="s2">&quot;policy_freq&quot;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>                 <span class="c1"># Frequency of delayed policy updates</span>
+<span class="s2">&quot;save_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;store_true&quot;</span><span class="p">,</span>       <span class="c1"># Save model and optimizer parameters</span>
+<span class="s2">&quot;load_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>                 <span class="c1"># Model load file name, &quot;&quot; doesn&#39;t load, &quot;default&quot; uses file_name</span>
+</pre></div>
+</div>
+<p>Below are results from several training runs in which the only difference between runs is a hyperparameter: tau.  Tau is the rate at which the target network is updated - each color in the image represents a different value for tau, and each value is run 5 times, with different seeds.</p>
+<p>In all cases, you’ll eventually get the answer - they all saturate at about the same reward. But in some cases, we would be ‘done’ before 400k time-steps, and some take nearly double that.</p>
+<p>This should illustrate two things - first, the training path is not deterministic across random seeds (the spread between paths in a single color) - and second, if you know your system and the parameters that go into the training, small changes can have big impacts on resources down the road.</p>
+<p>We’ve opted to show plots with the training rewards as scatter points, to give a real sense of where the rewards lie for the different tests, rather than a band plotted like uncertainty, which is more common when comparing reward trajectories against each other.</p>
+<div class="section" id="target-network-update-rate-tau">
+<h3>Target network update rate (tau)<a class="headerlink" href="#target-network-update-rate-tau" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">IPython.display</span> <span class="k">as</span> <span class="nn">ipd</span>
+<span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/rewards_by_tau.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_7_0.png" src="../_images/Day4_PartA_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/tau_003.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_8_0.png" src="../_images/Day4_PartA_8_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/tau_010.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_9_0.png" src="../_images/Day4_PartA_9_0.png" />
+</div>
+</div>
+<p>Remember, this is only five seeds per hyperparameter change, so…</p>
+<blockquote>
+<div><p><strong>…this is far from definitive - but it does start to paint a picture.</strong></p>
+</div></blockquote>
+<p>Do you care if there’s a chance of the fastest solve? Do you want the most steady training? These are things worth considering as you push forward.</p>
+</div>
+<div class="section" id="batch-size-for-actor-and-critic-updates">
+<h3>Batch size for actor and critic updates<a class="headerlink" href="#batch-size-for-actor-and-critic-updates" title="Permalink to this headline">¶</a></h3>
+<p>Batch size is the number of state changes sampled from the replay buffer used for updating (training) the actor and critic policies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/rewards_by_batch.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_11_0.png" src="../_images/Day4_PartA_11_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/batch_256.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_12_0.png" src="../_images/Day4_PartA_12_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/batch_512.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_13_0.png" src="../_images/Day4_PartA_13_0.png" />
+</div>
+</div>
+<p>For this small sample, batch size of 512 does a much better job of regularly converging quickly than the author supplied 256.  Fluke or feature, these are the types of challenges you have to address when you start tinkering with RL hyperparameters.</p>
+<blockquote>
+<div><p><strong>Fluke or feature:  Is 512 a better value than 256?</strong></p>
+</div></blockquote>
+</div>
+<div class="section" id="exploration-noise">
+<h3>Exploration noise<a class="headerlink" href="#exploration-noise" title="Permalink to this headline">¶</a></h3>
+<p>Finally, lets look at exploration noise.</p>
+<blockquote>
+<div><p><strong>What might you expect to see in terms of training behavior with more or less noise?</strong></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/rewards_by_noise.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_16_0.png" src="../_images/Day4_PartA_16_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/noise_003.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_17_0.png" src="../_images/Day4_PartA_17_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;images/noise_015.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Day4_PartA_18_0.png" src="../_images/Day4_PartA_18_0.png" />
+</div>
+</div>
+<p>Did you guess correctly? As the noise scale goes up, you might happen upon a reward more quickly, but you may also overlook a real signal with the size of the noise on top of things.  Smaller noise is likely more stable across seeds and runs, but still needs to be ‘enough’ to find a good signal quickly.</p>
+<p>As with many things ML, there are packages out there to help you slog your way through hyperparameter tuning as efficiently as you can.</p>
+<blockquote>
+<div><p><strong>Keep in mind that these searches in RL are costly relative to most other forms of ML.</strong></p>
+</div></blockquote>
+<p>The data your agent is creating (via exploration) has to be generated, typically, so the compute cost of large searches in RL are typically much larger than in other ML spaces.  Plan carefully what aspects are worth verifying and what you expect to gain vs the tradeoff of just running more training directly.</p>
+<p>Some optimization frameworks include:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://optuna.org/">Optuna</a></p></li>
+<li><p><a class="reference external" href="http://hyperopt.github.io/hyperopt/">Hyperopt</a></p></li>
+<li><p><a class="reference external" href="https://parameter-sherpa.readthedocs.io/en/latest/">SHERPA</a></p></li>
+<li><p><a class="reference external" href="https://docs.ray.io/en/latest/tune/index.html">Ray-Tune</a></p></li>
+<li><p>Many others</p></li>
+</ul>
+<p>When it comes to RL hyperparameter training, specifically, there’s an extra method worth pointing out: population-based training, PBT.  PBT is a sort of ‘random search meets genetic algorithms’ approach, where you train many networks in parallel, but adapt further search paths based on information from the group of networks training.  You can read more about the method <a class="reference external" href="https://deepmind.com/blog/article/population-based-training-neural-networks">here</a> and see it put to use in <a class="reference external" href="https://deepmind.com/blog/article/capture-the-flag-science">this example</a>.</p>
+<p>Of course, hyperparameters don’t have to stay constant throughout a training - over the course of training, as you progress toward higher goals, you may find it advantageous to modify one, or more, parameters to fine-tune your search in a particular area.</p>
+<blockquote>
+<div><p><strong>Can you modify Day3_PartA so that the exploration noise and action noise scale down after 500k timesteps?</strong></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;policy&quot;</span> <span class="p">:</span> <span class="s2">&quot;TD3&quot;</span><span class="p">,</span>                  <span class="c1"># Policy name (TD3, DDPG or OurDDPG)</span>
+<span class="s2">&quot;env&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyAntBulletEnv-v0&quot;</span><span class="p">,</span>       <span class="c1"># OpenAI gym environment name</span>
+<span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                        <span class="c1"># Sets Gym, PyTorch and Numpy seeds</span>
+<span class="s2">&quot;start_timesteps&quot;</span> <span class="p">:</span> <span class="mf">25e3</span><span class="p">,</span>          <span class="c1"># Time steps initial random policy is used</span>
+<span class="s2">&quot;eval_freq&quot;</span> <span class="p">:</span> <span class="mf">5e3</span><span class="p">,</span>                 <span class="c1"># How often (time steps) we evaluate</span>
+<span class="s2">&quot;max_timesteps&quot;</span> <span class="p">:</span> <span class="mf">5e6</span><span class="p">,</span>             <span class="c1"># Max time steps to run environment</span>
+<span class="s2">&quot;expl_noise&quot;</span> <span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>                <span class="c1"># Std of Gaussian exploration noise</span>
+<span class="s2">&quot;batch_size&quot;</span> <span class="p">:</span> <span class="mi">256</span><span class="p">,</span>                <span class="c1"># Batch size for both actor and critic</span>
+<span class="s2">&quot;discount&quot;</span> <span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>                 <span class="c1"># Discount factor</span>
+<span class="s2">&quot;tau&quot;</span> <span class="p">:</span> <span class="mf">0.007</span><span class="p">,</span>                     <span class="c1"># Target network update rate</span>
+<span class="s2">&quot;policy_noise&quot;</span> <span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>              <span class="c1"># Noise added to target policy during critic update</span>
+<span class="s2">&quot;noise_clip&quot;</span> <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>                <span class="c1"># Range to clip target policy noise</span>
+<span class="s2">&quot;policy_freq&quot;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>                 <span class="c1"># Frequency of delayed policy updates</span>
+<span class="s2">&quot;save_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;store_true&quot;</span><span class="p">,</span>       <span class="c1"># Save model and optimizer parameters</span>
+<span class="s2">&quot;load_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Do a similar analysis for other hyperparameters.  Here are some suggestions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start_timesteps</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eval_freq</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">discount</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">noise_clip</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">policy_freq</span></code></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Course_Material"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="Day3_PartB.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Day 3, Part B: Reward Shaping, Generalization</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="Day4_PartB.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Day 4, Part B: Creating Custom Environments</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By tonyfast<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
