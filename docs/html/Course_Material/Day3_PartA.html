@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 3, Part A: Modifying The Environment &#8212; Practical-RL</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Day 3, Part B: Reward Shaping, Generalization" href="Day3_PartB.html" />
+    <link rel="prev" title="Day 2, Part B: TD3 Algorithm" href="Day2_PartB.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Practical-RL</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Readme
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Practical_RL_Course_Intro.html">
+   Syllabus: Practical Reinforcement Learning Course
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartA.html">
+   Day 1, Part A: Introduction to reinforcement learning and research environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartB.html">
+   Day 1, Part B: More on Reward Design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartC.html">
+   Day 1, Part C: Faster Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day1_PartD.html">
+   Day 1, Part D: Parking a Car with RL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartA.html">
+   Day 2, Part A: Learning To Run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day2_PartB.html">
+   Day 2, Part B: TD3 Algorithm
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Day 3, Part A: Modifying The Environment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day3_PartB.html">
+   Day 3, Part B: Reward Shaping, Generalization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day4_PartA.html">
+   Day 4, Part A: Hyperparameter Tuning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day4_PartB.html">
+   Day 4, Part B: Creating Custom Environments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day5_PartA.html">
+   Day 5, Part A: Multi-Agent RL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Day5_PartB.html">
+   Day 5, Part B: Using Your Trained Policy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Course_Material/Day3_PartA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Quansight/Practical-RL"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/Quansight/Practical-RL/edit/main/Course_Material/Day3_PartA.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Quansight/Practical-RL/main?urlpath=tree/Course_Material/Day3_PartA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Day 3, Part A: Modifying The Environment
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals">
+   Learning goals
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definitions">
+   Definitions
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#considerations-when-modifying-an-environment">
+   Considerations when modifying an environment
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-goal-is-not-the-same-as-the-reward">
+     The goal is not the same as the reward
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modify-environment-to-accomodate-new-goal">
+   Modify environment to accomodate new goal
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="day-3-part-a-modifying-the-environment">
+<h1>Day 3, Part A: Modifying The Environment<a class="headerlink" href="#day-3-part-a-modifying-the-environment" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="learning-goals">
+<h1>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>How to modify the Ant environment to accommodate new goals</p></li>
+<li><p>How and why to subclass a class</p></li>
+</ul>
+</div>
+<div class="section" id="definitions">
+<h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Simulation environment</strong>: Notice that this is not the same as the python/conda environment.  The simulation environment is the simulated world where the reinforcement learning takes place.  It provides opportunities for an agent to learn and explore, and ideally provides challenges that aid in efficient learning.</p></li>
+<li><p><strong>Agent (aka actor or policy)</strong>: An entity in the simulation environment that performs actions.  The agent could be a person, a robot, a car, a thermostat, etc.</p></li>
+<li><p><strong>State variable</strong>: An observed variable in the simulation environment.  They can be coordinates of objects or entities, an amount of fuel in a tank, air temperature, wind speed, etc.</p></li>
+<li><p><strong>Action variable</strong>: An action that the agent can perform.  Examples: step forward, increase velocity to 552.5 knots, push object left with force of 212.3 N, etc.</p></li>
+<li><p><strong>Reward</strong>: A value given to the agent for doing something considered to be ‘good’.  Reward is commonly assigned at each time step and cumulated during a learning episode.</p></li>
+<li><p><strong>Episode</strong>: A learning event consisting of multiple steps in which the agent can explore.  It starts with the unmodified environment and continues until the goal is achieved or something prevents further progress, such as a robot getting stuck in a hole.  Multiple episodes are typically run in loops until the model is fully trained.</p></li>
+<li><p><strong>Model (aka policy or agent)</strong>: An RL model is composed of the modeling architecture (e.g., neural network) and parameters or weights that define the unique behavior of the model.</p></li>
+<li><p><strong>Policy (aka model or agent)</strong>: The parameters of a model that encode the best choices to make in an environment.  The choices are not necessarily good ones until the model undergoes training.  The policy (or model) is the “brain” of the agent.</p></li>
+<li><p><strong>Replay Buffer</strong>: A place in memory to store state, action, reward and other variables describing environmental state transitions. It is effectively the agent’s memory of past experiences.</p></li>
+<li><p><strong>On-policy</strong>: The value of the next action is determined using the current actor policy.</p></li>
+<li><p><strong>Off-policy</strong>: The value of the next action is determined by a function, such as a value function, instead of the current actor policy.</p></li>
+<li><p><strong>Value function</strong>: Function (typically a neural network) used to estimate the value, or expected reward, of an action.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">IPython.display</span> <span class="k">as</span> <span class="nn">ipd</span>
+<span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;../animations/stuck_ant.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As it turns out, the way that Ant is set up, it learns to run in the positive-x direction… and ONLY that direction.  It was never given any opportunity to have any other experiences to learn from, and so it didn’t.  The result of the ant running off to the right is very effective at that one, specific, thing, but it’s completely fragile to any other request or changes to the environment.</p>
+<p>Today we will think about how to make Ant more useful.  We will start with the idea of changing the environment, then move on the reward function.</p>
+</div>
+<div class="section" id="considerations-when-modifying-an-environment">
+<h1>Considerations when modifying an environment<a class="headerlink" href="#considerations-when-modifying-an-environment" title="Permalink to this headline">¶</a></h1>
+<p>The Ant environment provides a good example for discussion.  The environment has the usual physical attributes, like gravity, but it is a flat, smooth world with no obstacles. If we want to train the Ant to do real-world tasks (using a robot version of Ant), we would need an improved learning environment.</p>
+<p>Like any analysis, it will help to define a goal or goals.  What should Ant accomplish?  The default goal is to walk to the right (along x) as fast as it can.  This can be very helpful as a testing environment, but what if we want Ant to perform other tasks?  It needs an environment that will help it learn across various tasks.</p>
+<ul class="simple">
+<li><p>The goal needs to be challenging yet tractable (don’t expect Ant to fly or do math)</p></li>
+<li><p>Consider essential tasks in a real-world situation that can be included in the environment.  For example, does it need to navigate on uneven topography or around obstacles?</p></li>
+</ul>
+<p>Ant is designed for mobility, so obvious choices for a new goal are related to motion, direction, paths, and destinations.  Possible new goals:</p>
+<ul class="simple">
+<li><p>Walk in opposite direction (not very useful)</p></li>
+<li><p>Walk in specified direction (better) - if we keep giving it new directions to aim for, it can be more useful.</p></li>
+<li><p>Go to coordinate (much better) - if we keep passing it coordinates as breadcrumbs, it could travel along complex paths.</p></li>
+</ul>
+<p><img alt="Ant Goals" src="../_images/ant_goals.png" /></p>
+<div class="section" id="the-goal-is-not-the-same-as-the-reward">
+<h2>The goal is not the same as the reward<a class="headerlink" href="#the-goal-is-not-the-same-as-the-reward" title="Permalink to this headline">¶</a></h2>
+<p>They are closely related though.  The reward helps to define how the agent accomplishes the goal.  When changing the goal of the agent, we usually need to adjust the reward.</p>
+<p>Example of each:</p>
+<ul class="simple">
+<li><p>Goal: Get to target coordinate</p></li>
+<li><p>Reward: Earn 1 point when agent coordinate is within x distance of target coordinate</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modify-environment-to-accomodate-new-goal">
+<h1>Modify environment to accomodate new goal<a class="headerlink" href="#modify-environment-to-accomodate-new-goal" title="Permalink to this headline">¶</a></h1>
+<p>In Python, we can use subclassing to modify existing code, like the Ant environment.  Subclassing allows us to inherit the properties and methods of a class and then modify them by overriding the ones that need to change.  The class we inherit usually has a common set of characteristics, and each subclass is a more specialized version of it.</p>
+<p>By analogy, we can say that <code class="docutils literal notranslate"><span class="pre">Vehicle</span></code> defines a base class, <code class="docutils literal notranslate"><span class="pre">Car</span></code> defines a subclass of <code class="docutils literal notranslate"><span class="pre">Vehicle</span></code>, and <code class="docutils literal notranslate"><span class="pre">VW</span></code> defines a subclass of <code class="docutils literal notranslate"><span class="pre">Car</span></code>.  To define a <code class="docutils literal notranslate"><span class="pre">VW</span></code>, we would have a structure like this:</p>
+<p><img alt="Subclassing" src="../_images/subclassing_basic.png" /></p>
+<p>Following the goal of moving to a new coordinate, lets look at how we might modify the environment code to make it a bit more flexible.</p>
+<p>Of course, you can define the entirety of your environment, including actors, steps, rewards, etc., but that’s a lot of work if you don’t need to.  Instead, let’s subclass the things we want to modify.</p>
+<p>In our repository, if you look at <a class="reference external" href="https://github.com/dillonroach/TD3/blob/master/override_ant.py">override_ant.py</a> we take all the pieces from <a class="reference external" href="https://github.com/bulletphysics/bullet3/tree/master/examples/pybullet/gym/pybullet_envs">the original Ant</a> and give new names to things, while also exposing key functions in each piece we might want to modify.  The subclassing here gets messy, so here’s a simplified rundown of what inherits from what:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyAntBulletEnv</span><span class="p">(</span><span class="n">WalkerBaseBulletEnv</span><span class="p">):</span> <span class="c1"># &lt;- this is our entry point to the new environment</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">robot</span> <span class="o">=</span> <span class="n">MyAnt</span><span class="p">()</span>
+                   \\\
+             <span class="k">class</span> <span class="nc">MyAnt</span><span class="p">(</span><span class="n">MyWalkerBase</span><span class="p">):</span> <span class="c1"># MyAntBulletEnv sets the robot as MyAnt</span>
+                              \\\
+                    <span class="k">class</span> <span class="nc">MyWalkerBase</span><span class="p">(</span><span class="n">WalkerBase</span><span class="p">):</span> <span class="c1">#MyAnt subclasses MyWalkerBase, itself from WalkerBase</span>
+
+                        <span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+                             <span class="o">...</span>
+                        <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
+                             <span class="o">...</span>
+</pre></div>
+</div>
+<p>If you take a look at <code class="docutils literal notranslate"><span class="pre">MyWalkerBase()</span></code> and compare to <code class="docutils literal notranslate"><span class="pre">WalkerBase()</span></code> from <a class="reference external" href="https://github.com/bulletphysics/bullet3/blob/master/examples/pybullet/gym/pybullet_envs/robot_locomotors.py">the original</a> we’ve copied over <code class="docutils literal notranslate"><span class="pre">init()</span></code> and <code class="docutils literal notranslate"><span class="pre">step()</span></code> as they were written, then tweaked small things.  In this first go, we’ve only used this to set the robot target x and y to a new location: 20m, 20m.</p>
+<p>In order to now use this new, modified environment, we simply add some registration boilerplate to our notebook:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gym.envs.registration</span> <span class="kn">import</span> <span class="n">registry</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">spec</span>
+
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">registry</span><span class="o">.</span><span class="n">env_specs</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gym</span><span class="o">.</span><span class="n">envs</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">)</span>
+    
+<span class="n">register</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;MyAntBulletEnv-v0&#39;</span><span class="p">,</span>
+    <span class="n">entry_point</span><span class="o">=</span><span class="s1">&#39;override_ant:MyAntBulletEnv&#39;</span><span class="p">,</span>
+    <span class="n">max_episode_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">reward_threshold</span><span class="o">=</span><span class="mf">2500.0</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>And then set <code class="docutils literal notranslate"><span class="pre">&quot;env&quot;</span> <span class="pre">:</span> <span class="pre">&quot;MyAntBulletEnv-v0&quot;,</span></code> instead of the original, in the arguments dictionary.  You can see an example of this change in <a class="reference external" href="https://github.com/dillonroach/TD3/blob/master/TD3notebook-MyAnt.ipynb">TD3notebook-MyAnt.ipynb</a>.  If you run that notebook, you’ll end up with an ant that runs to (20,20) instead of to the right for a kilometer.</p>
+<p>We also include the code here below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">pybullet_envs</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">utils</span>
+<span class="kn">import</span> <span class="nn">TD3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Runs policy for X episodes and returns average reward</span>
+<span class="c1"># A fixed seed is used for the eval environment</span>
+<span class="k">def</span> <span class="nf">eval_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">env_name</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">eval_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">eval_env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">env_name</span><span class="p">)</span>
+    <span class="n">eval_env</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">avg_reward</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">eval_episodes</span><span class="p">):</span>
+        <span class="n">state</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">eval_env</span><span class="o">.</span><span class="n">reset</span><span class="p">(),</span> <span class="kc">False</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+            <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">eval_env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="n">avg_reward</span> <span class="o">+=</span> <span class="n">reward</span>
+
+    <span class="n">avg_reward</span> <span class="o">/=</span> <span class="n">eval_episodes</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluation over </span><span class="si">{</span><span class="n">eval_episodes</span><span class="si">}</span><span class="s2"> episodes: </span><span class="si">{</span><span class="n">avg_reward</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">avg_reward</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gym.envs.registration</span> <span class="kn">import</span> <span class="n">registry</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">spec</span>
+
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">registry</span><span class="o">.</span><span class="n">env_specs</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gym</span><span class="o">.</span><span class="n">envs</span><span class="o">.</span><span class="n">registration</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">register</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;MyAntBulletEnv-v0&#39;</span><span class="p">,</span>
+    <span class="n">entry_point</span><span class="o">=</span><span class="s1">&#39;override_ant:MyAntBulletEnv&#39;</span><span class="p">,</span>
+    <span class="n">max_episode_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">reward_threshold</span><span class="o">=</span><span class="mf">2500.0</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;policy&quot;</span> <span class="p">:</span> <span class="s2">&quot;TD3&quot;</span><span class="p">,</span>                  <span class="c1"># Policy name (TD3, DDPG or OurDDPG)</span>
+            <span class="s2">&quot;env&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyAntBulletEnv-v0&quot;</span><span class="p">,</span>         <span class="c1"># OpenAI gym environment name</span>
+            <span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                        <span class="c1"># Sets Gym, PyTorch and Numpy seeds</span>
+            <span class="s2">&quot;start_timesteps&quot;</span> <span class="p">:</span> <span class="mf">25e3</span><span class="p">,</span>          <span class="c1"># Time steps initial random policy is used</span>
+            <span class="s2">&quot;eval_freq&quot;</span> <span class="p">:</span> <span class="mf">5e3</span><span class="p">,</span>                 <span class="c1"># How often (time steps) we evaluate</span>
+            <span class="s2">&quot;max_timesteps&quot;</span> <span class="p">:</span> <span class="mf">0.8e6</span><span class="p">,</span>             <span class="c1"># Max time steps to run environment</span>
+            <span class="s2">&quot;expl_noise&quot;</span> <span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>                <span class="c1"># Std of Gaussian exploration noise</span>
+            <span class="s2">&quot;batch_size&quot;</span> <span class="p">:</span> <span class="mi">256</span><span class="p">,</span>                <span class="c1"># Batch size for both actor and critic</span>
+            <span class="s2">&quot;discount&quot;</span> <span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>                 <span class="c1"># Discount factor</span>
+            <span class="s2">&quot;tau&quot;</span> <span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>                     <span class="c1"># Target network update rate</span>
+            <span class="s2">&quot;policy_noise&quot;</span> <span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>              <span class="c1"># Noise added to target policy during critic update</span>
+            <span class="s2">&quot;noise_clip&quot;</span> <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>                <span class="c1"># Range to clip target policy noise</span>
+            <span class="s2">&quot;policy_freq&quot;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>                 <span class="c1"># Frequency of delayed policy updates</span>
+            <span class="s2">&quot;save_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;store_true&quot;</span><span class="p">,</span>       <span class="c1"># Save model and optimizer parameters</span>
+            <span class="s2">&quot;load_model&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>                 <span class="c1"># Model load file name, &quot;&quot; doesn&#39;t load, &quot;default&quot; uses file_name</span>
+           <span class="p">}</span>
+
+    <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Policy: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Env: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Seed: </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./results&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;./results&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;save_model&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./models&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;./models&quot;</span><span class="p">)</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Set seeds</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+
+    <span class="n">state_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">action_dim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+    <span class="n">max_action</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;state_dim&quot;</span><span class="p">:</span> <span class="n">state_dim</span><span class="p">,</span>
+        <span class="s2">&quot;action_dim&quot;</span><span class="p">:</span> <span class="n">action_dim</span><span class="p">,</span>
+        <span class="s2">&quot;max_action&quot;</span><span class="p">:</span> <span class="n">max_action</span><span class="p">,</span>
+        <span class="s2">&quot;discount&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Initialize policy</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TD3&quot;</span><span class="p">:</span>
+        <span class="c1"># Target policy smoothing is scaled wrt the action scale</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;policy_noise&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy_noise&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_action</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;noise_clip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;noise_clip&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_action</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;policy_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;policy_freq&#39;</span><span class="p">]</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">TD3</span><span class="o">.</span><span class="n">TD3</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">policy_file</span> <span class="o">=</span> <span class="n">file_name</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;load_model&#39;</span><span class="p">]</span>
+        <span class="n">policy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./models/</span><span class="si">{</span><span class="n">policy_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">replay_buffer</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">ReplayBuffer</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate untrained policy</span>
+    <span class="n">evaluations</span> <span class="o">=</span> <span class="p">[</span><span class="n">eval_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])]</span>
+
+    <span class="n">state</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(),</span> <span class="kc">False</span>
+    <span class="n">episode_reward</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">episode_timesteps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">episode_num</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;max_timesteps&#39;</span><span class="p">])):</span>
+
+        <span class="n">episode_timesteps</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Select action randomly or according to policy</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;start_timesteps&#39;</span><span class="p">]:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">policy</span><span class="o">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_action</span> <span class="o">*</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;expl_noise&#39;</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">action_dim</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="o">-</span><span class="n">max_action</span><span class="p">,</span> <span class="n">max_action</span><span class="p">)</span>
+
+        <span class="c1"># Perform action</span>
+        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> 
+        <span class="n">done_bool</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">done</span><span class="p">)</span> <span class="k">if</span> <span class="n">episode_timesteps</span> <span class="o">&lt;</span> <span class="n">env</span><span class="o">.</span><span class="n">_max_episode_steps</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="c1"># Store data in replay buffer</span>
+        <span class="n">replay_buffer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done_bool</span><span class="p">)</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="n">next_state</span>
+        <span class="n">episode_reward</span> <span class="o">+=</span> <span class="n">reward</span>
+
+        <span class="c1"># Train agent after collecting sufficient data</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;start_timesteps&#39;</span><span class="p">]:</span>
+            <span class="n">policy</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">replay_buffer</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span> 
+            <span class="c1"># +1 to account for 0 indexing. +0 on ep_timesteps since it will increment +1 even if done=True</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total T: </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> Episode Num: </span><span class="si">{</span><span class="n">episode_num</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> Episode T: </span><span class="si">{</span><span class="n">episode_timesteps</span><span class="si">}</span><span class="s2"> Reward: </span><span class="si">{</span><span class="n">episode_reward</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Reset environment</span>
+            <span class="n">state</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(),</span> <span class="kc">False</span>
+            <span class="n">episode_reward</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">episode_timesteps</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">episode_num</span> <span class="o">+=</span> <span class="mi">1</span> 
+
+        <span class="c1"># Evaluate episode</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;eval_freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">evaluations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]))</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./results/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">evaluations</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;save_model&#39;</span><span class="p">]:</span> <span class="n">policy</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./models/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipd</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;../animations/diagon_anty.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The Ant learned to get to the new coordinates (20, 20).  But, as you can see in the animation, it learned to walk in a different way, with two legs to the side, one in front, and one in back.  With small adjustments to the initial orientation of Ant, the walking style can be made more efficient, or we could let it continue learning and it should work out a more efficient style.</p>
+<p>Now that we’ve had success teaching Ant to do something beyond its default behavior, let’s continue to work toward helping Ant to learn to go to any coordinate.</p>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Course_Material"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="Day2_PartB.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Day 2, Part B: TD3 Algorithm</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="Day3_PartB.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Day 3, Part B: Reward Shaping, Generalization</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By tonyfast<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
