@@ -1,4 +1,4 @@
-This license covers all files in the repository except for the following files:
+This license covers the following files:
 
 - ./TD3.py
 - ./utils.py
@@ -6,7 +6,7 @@ This license covers all files in the repository except for the following files:
 -------------------------------------------------------
 MIT License
 
-Copyright (c) 2021 Quansight
+Copyright (c) 2020 Scott Fujimoto
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
