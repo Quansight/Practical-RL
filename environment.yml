@@ -13,10 +13,12 @@ dependencies:
   - param
   - panel
   - pip
+  - numpngw
   - numpy
+  - pybullet
   - pytorch
   - gym
-  - stable-baselines3
+  - stable-baselines3==1.4.0
   - tensorboardx
   - tensorboard
   - tqdm
