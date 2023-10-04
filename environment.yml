@@ -24,6 +24,5 @@ dependencies:
   - tqdm
   - jupyterlab-git
   - pip:
-    - PyBullet
     - highway-env
     - opencv-python
